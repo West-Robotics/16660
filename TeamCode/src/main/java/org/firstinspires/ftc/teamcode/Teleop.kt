@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 @TeleOp
 class Teleop: LinearOpMode(){
-    val gamepad: Gamepad = Gamepad()
 
-    val controller: Controller = Controller(gamepad)
 
     override fun runOpMode(){
+        val gamepad: Gamepad = Gamepad()
 
+        val controller: Controller = Controller(gamepad)
     }
 
 
