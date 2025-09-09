@@ -9,11 +9,16 @@ class motorSetup (hardwareMap: HardwareMap,name:String, direction: DcMotorSimple
 
     val motor = hardwareMap.dcMotor.get(name) as DcMotorEx
 
+    val effort: Double = 0.0
     init {
         motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
         motor.direction = direction
         motor.zeroPowerBehavior = zeroPower
     }
 
+
+    fun toPower(){
+        motor.power = effort
+    }
 
 }
