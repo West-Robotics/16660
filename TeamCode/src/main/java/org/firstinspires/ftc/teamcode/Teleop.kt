@@ -12,7 +12,7 @@ class Teleop: LinearOpMode(){
 
     override fun runOpMode(){
         val gamepad = Gamepad()
-        val drive = drivetrain()
+        val drive = drivetrain(hardwareMap = this.hardwareMap)
         val controller1 = Controller(gamepad)
         waitForStart()
 
