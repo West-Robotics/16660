@@ -13,6 +13,8 @@ class drivetrain (hardwareMap: HardwareMap){
     val backLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
     val backRight = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
 
+
+
     fun mecanumEffort(x:Double, y:Double, rx:Double){
         val denominator = max(abs(x)+abs(y)+abs(rx),1.0)
         frontLeft.effort = (y+x+rx)/denominator

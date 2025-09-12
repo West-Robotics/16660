@@ -22,7 +22,7 @@ class motorSetup (hardwareMap: HardwareMap,name:String, direction: DcMotorSimple
 
 
     fun toPower(){
-        motor.power = effort
+        motor.power = 1.0
     }
 
 }
