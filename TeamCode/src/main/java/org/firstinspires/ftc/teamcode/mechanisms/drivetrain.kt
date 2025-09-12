@@ -8,9 +8,9 @@ import kotlin.math.max
 import kotlin.math.abs
 
 class drivetrain (hardwareMap: HardwareMap){
-    val frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+    val frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
     val frontRight = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
-    val backLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+    val backLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
     val backRight = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
 
     fun mecanumEffort(x:Double, y:Double, rx:Double){
