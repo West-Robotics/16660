@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 
 class motorSetup (hardwareMap: HardwareMap,name:String, direction: DcMotorSimple.Direction,zeroPower: DcMotor.ZeroPowerBehavior){
 
-    val motor = hardwareMap.dcMotor.get(name) as DcMotorEx
+    var motor = hardwareMap.dcMotor.get(name) as DcMotorEx
 
     init {
         motor.mode = DcMotor.RunMode.RUN_WITHOUT_ENCODER
@@ -22,7 +22,7 @@ class motorSetup (hardwareMap: HardwareMap,name:String, direction: DcMotorSimple
 
 
     fun toPower(){
-        motor.power = 1.0
+        motor.power = effort
     }
 
 }
