@@ -11,7 +11,7 @@ import kotlin.math.abs
 class Teleop: LinearOpMode(){
 
     override fun runOpMode(){
-        val drive = drivetrain(hardwareMap)
+        val drive = drivetrain(hardwareMap, true)
         val controller1 = Controller(gamepad1)
 
         waitForStart()
