@@ -17,12 +17,8 @@ class Teleop: LinearOpMode(){
         waitForStart()
 
         while (opModeIsActive()){
-
-            var x = controller1.left_stick_x
-            var y = controller1.left_stick_y
-            var turn = controller1.right_stick_x
             controller1.update()
-            drive.mecanumEffort(controller1.left_stick_x,controller1.left_stick_y,controller1.right_stick_x)
+            drive.mecanumEffort(controller1.left_stick_x,-controller1.left_stick_y,controller1.right_stick_x)
             drive.runMotors()
 
         }
