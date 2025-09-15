@@ -11,8 +11,8 @@ import kotlin.math.abs
 class Teleop: LinearOpMode(){
 
     override fun runOpMode(){
-        val drive = drivetrain(this.hardwareMap)
-        val controller1 = Controller(this.gamepad1)
+        val drive = drivetrain(hardwareMap)
+        val controller1 = Controller(gamepad1)
 
         waitForStart()
 
@@ -24,8 +24,6 @@ class Teleop: LinearOpMode(){
             controller1.update()
             drive.mecanumEffort(controller1.left_stick_x,controller1.left_stick_y,controller1.right_stick_x)
             drive.runMotors()
-
-            var changeToOne:Double = 1/max(abs(x)+abs(y)+abs(turn),1.0)
 
         }
     }
