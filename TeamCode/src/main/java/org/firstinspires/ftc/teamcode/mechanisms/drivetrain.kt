@@ -14,11 +14,23 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     lateinit var backRight:motorSetup
 
     init{
-        if (setupMecanum){
-            frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
-            frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
-            backLeft = motorSetup(hardwareMap, "backLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
-            backRight = motorSetup(hardwareMap, "backRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+        frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
+        frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+
+        if (setupMecanum) {
+
+            backLeft = motorSetup(
+                hardwareMap,
+                "backLeft",
+                DcMotorSimple.Direction.REVERSE,
+                DcMotor.ZeroPowerBehavior.FLOAT
+            )
+            backRight = motorSetup(
+                hardwareMap,
+                "backRight",
+                DcMotorSimple.Direction.FORWARD,
+                DcMotor.ZeroPowerBehavior.FLOAT
+            )
         }
     }
 
@@ -32,7 +44,8 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     }
 
     fun tankEffort(leftInput: Double, rightInput: Double){
-
+        frontRight.effort = rightInput
+        frontLeft.effort = leftInput
     }
 
 
