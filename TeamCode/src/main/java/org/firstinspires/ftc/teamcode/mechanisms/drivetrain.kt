@@ -13,12 +13,18 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     lateinit var backLeft: motorSetup
     lateinit var backRight:motorSetup
 
+    var mecanum = false
+
     init{
+        frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
+        frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
         if (setupMecanum){
-            frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
-            frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
             backLeft = motorSetup(hardwareMap, "backLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
             backRight = motorSetup(hardwareMap, "backRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+            mecanum = true
+        } else {
+            mecanum = false
+
         }
     }
 
@@ -32,7 +38,8 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     }
 
     fun tankEffort(leftInput: Double, rightInput: Double){
-
+        frontLeft.effort = leftInput
+        frontRight.effort = rightInput
     }
 
 
@@ -40,8 +47,10 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     fun runMotors(){
         frontLeft.toPower()
         frontRight.toPower()
-        backLeft.toPower()
-        backRight.toPower()
+        if (mecanum) {
+            backLeft.toPower()
+            backRight.toPower()
+        }
     }
 
 }
