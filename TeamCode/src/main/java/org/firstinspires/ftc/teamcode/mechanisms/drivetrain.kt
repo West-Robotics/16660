@@ -24,7 +24,6 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
             mecanum = true
         } else {
             mecanum = false
-
         }
     }
 
