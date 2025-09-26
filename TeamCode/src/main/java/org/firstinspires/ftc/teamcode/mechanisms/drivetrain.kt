@@ -41,6 +41,11 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
         frontRight.effort = rightInput
     }
 
+    fun stickTankEffort(x:Double,y:Double){
+        frontLeft.effort = (y + x)/abs(x + y)
+        frontRight.effort = (y - x)/abs(x + y)
+    }
+
 
 
     fun runMotors(){
