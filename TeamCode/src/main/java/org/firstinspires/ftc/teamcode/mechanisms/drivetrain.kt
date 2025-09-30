@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.setup.motorSetup
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import kotlin.math.max
 import kotlin.math.abs
+import kotlin.math.pow
 
 class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     lateinit var frontLeft: motorSetup
@@ -16,11 +17,11 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     var mecanum = false
 
     init{
-        frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
-        frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+        frontLeft = motorSetup(hardwareMap, "frontLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.BRAKE )
+        frontRight = motorSetup(hardwareMap, "frontRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.BRAKE )
         if (setupMecanum){
-            backLeft = motorSetup(hardwareMap, "backLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.FLOAT )
-            backRight = motorSetup(hardwareMap, "backRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
+            backLeft = motorSetup(hardwareMap, "backLeft",DcMotorSimple.Direction.REVERSE, DcMotor.ZeroPowerBehavior.BRAKE )
+            backRight = motorSetup(hardwareMap, "backRight",DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.BRAKE )
             mecanum = true
         } else {
             mecanum = false
@@ -42,8 +43,9 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
     }
 
     fun stickTankEffort(x:Double,y:Double){
-        frontLeft.effort = (y + x)/abs(x + y)
-        frontRight.effort = (y - x)/abs(x + y)
+
+        frontLeft.effort = ((x+y)/max(abs(y) + abs(x),1.0)).pow(5)
+        frontRight.effort = ((x-y)/max(abs(y) + abs(x),1.0)).pow(5)
     }
 
 

@@ -19,7 +19,7 @@ public class Controller {
         dpadUpBool.check(gamepad.dpad_up);
         dpadDownBool.check(gamepad.dpad_down);
         dpadRightBool.check(gamepad.dpad_right);
-        dpadDownBool.check(gamepad.dpad_down);
+        dpadLeftBool.check(gamepad.dpad_left);
         xBool.check(gamepad.x);
         yBool.check(gamepad.y);
         aBool.check(gamepad.a);
