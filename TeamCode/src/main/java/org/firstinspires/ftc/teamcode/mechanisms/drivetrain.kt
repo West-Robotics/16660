@@ -44,8 +44,8 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
 
     fun stickTankEffort(x:Double,y:Double){
 
-        frontLeft.effort = ((x+y)/max(abs(y) + abs(x),1.0)).pow(5)
-        frontRight.effort = ((x-y)/max(abs(y) + abs(x),1.0)).pow(5)
+        frontLeft.effort = ((y+x)/max(abs(y) + abs(x),1.0)).pow(5)
+        frontRight.effort = ((y-x)/max(abs(y) + abs(x),1.0)).pow(5)
     }
 
 
