@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.setup.motorSetup
 @TeleOp
 class testtele : LinearOpMode(){
     override fun runOpMode() {
-        val leftMotor = motorSetup(hardwareMap,"frontLeft", DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.FLOAT )
-        val rightMotor = motorSetup(hardwareMap, "frontRight", DcMotorSimple.Direction.REVERSE,DcMotor.ZeroPowerBehavior.FLOAT)
+        val leftMotor = motorSetup(hardwareMap,"leftMotor", DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.BRAKE)
+        val rightMotor = motorSetup(hardwareMap, "rightMotor", DcMotorSimple.Direction.REVERSE,DcMotor.ZeroPowerBehavior.BRAKE)
         val controller1 = Controller(gamepad1)
         waitForStart()
         while (opModeIsActive()){
@@ -30,7 +30,7 @@ class testtele : LinearOpMode(){
                 leftMotor.effort = -1.0
             } else{
                 leftMotor.effort = 0.0
-            } //Hi, My name is Cole, I WROTE THIS CODE, NOT RAZIEL!!!
+            }
             rightMotor.toPower()
             leftMotor.toPower()
         }
