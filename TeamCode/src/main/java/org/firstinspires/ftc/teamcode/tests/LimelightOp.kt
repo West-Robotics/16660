@@ -64,6 +64,11 @@ class LimelightOp: LinearOpMode() {
                 drive.backLeft.effort = -power
                 drive.runMotors()
             }
+            if (controller1.b()){
+                var power = PIDController(llResult.tx,0.2,0.0,0.5)
+                drive.mecanumEffort(0.0,0.0,power)
+                drive.runMotors()
+            }
 
         }
 
