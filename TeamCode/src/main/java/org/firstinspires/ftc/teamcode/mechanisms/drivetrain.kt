@@ -28,6 +28,9 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
         }
     }
 
+    fun fieldCentricEffort(y:Double,x:Double,rx:Double,){
+
+    }
 
     fun mecanumEffort(y:Double, x:Double, rx:Double){
         val denominator = max(abs(x)+abs(y)+abs(rx),1.0)

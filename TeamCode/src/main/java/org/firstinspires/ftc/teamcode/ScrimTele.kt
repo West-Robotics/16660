@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 
 
-@TeleOp(name="ScrimTeleOp")
+@TeleOp(name="ScrimTeleOp1Controller")
 class ScrimTele : LinearOpMode(){
 
     override fun runOpMode(){
@@ -24,15 +24,12 @@ class ScrimTele : LinearOpMode(){
         for (module in allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO)
         }
-        var ybool = false
-        var xbool = false
         while (opModeIsActive()){
             controller1.update()
-            drive.stickTankEffort(controller1.left_stick_x, -controller1.left_stick_y)
-            flywheels.variablePower(-controller1.right_stick_y)
+            drive.stickTankEffort(controller1.right_stick_x, -controller1.left_stick_y)
             flywheels.runMotors()
             drive.runMotors()
-
+            /*
             if (controller1.xOnce()){
                 intake.position = 0.5 // left side
             }
@@ -57,39 +54,35 @@ class ScrimTele : LinearOpMode(){
             if (controller1.dpad_DownOnce()){
                 intake2.position -= 0.05
             }
-
-            if (controller1.leftBumperOnce()){ // open position
-                intake.position = 0.25
-                intake2.position = 0.8
-
-            }
-
-            if (controller1.rightBumperOnce()){  // closed position
-                intake.position = 0.55
-                intake2.position = 0.45
-            }
-
-            if (controller1.bOnce()){
-                intake.position = 0.72
-            }
-
-            /*
-            if (controller1.yOnce() && !ybool){
-                intake.position = 0.3 // out left side
-                ybool = true
-            } else if(controller1.yOnce() && ybool){
-                intake.position = 0.75 //in
-                ybool = false
-            }
-            if (controller1.xOnce() && !xbool){
-                intake2.position = 0.8 // out right side
-                xbool = true
-            } else if(controller1.xOnce() && xbool){
-                intake2.position = 0.35 // in
-                xbool = false
-            }
-
              */
+
+            //open
+            if (controller1.leftBumperOnce()){
+                intake2.position = 0.55
+                intake.position = 0.25
+            }
+            //closed
+            if (controller1.rightBumperOnce()){
+                intake2.position = 0.15
+                intake.position = 0.55
+            }
+            //shooting
+            if (controller1.right_trigger>0.1){
+                flywheels.maxPower()
+                sleep(1000)
+                intake.position = 0.7
+            } else{
+                flywheels.zeroPower() 
+            }
+
+
+            // open intake2/left is 0.55, intake/right is 0.25
+            // not shooting closed, 0.15, 0.55
+            // shooting pos 0.7 for intake/right
+            telemetry.addData("intake2pos",intake2.position)
+            telemetry.addData("intakepos",intake.position)
+            telemetry.update()
+
 
         }
     }
