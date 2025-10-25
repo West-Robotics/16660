@@ -13,19 +13,48 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 @TeleOp(name="ScrimTeleOp1Controller")
 class ScrimTele : LinearOpMode(){
 
-    override fun runOpMode(){
+    enum class OutTake {
+        OUTTAKE_START,
+        PUSH_SERVO,
+        INTAKE_OUT
+    }
+
+    override fun runOpMode() {
         val intake = hardwareMap.get("intake") as Servo
         val intake2 = hardwareMap.get("intake2") as Servo
         val drive = drivetrain(hardwareMap, false)
         val flywheels = flywheels(hardwareMap)
         val controller1 = Controller(gamepad1)
+        var outTake: OutTake = OutTake.OUTTAKE_START
         waitForStart()
         val allHubs = hardwareMap.getAll<LynxModule?>(LynxModule::class.java)
         for (module in allHubs) {
             module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO)
         }
-        while (opModeIsActive()){
+        while (opModeIsActive()) {
             controller1.update()
+
+            when (outTake) {
+                OutTake.OUTTAKE_START -> {
+                    if (controller1.dpad_UpOnce()) {
+                        outTake = OutTake.PUSH_SERVO
+                    }
+                }
+
+                OutTake.PUSH_SERVO -> {
+                    if (flywheels.leftFly.motor.velocity > 20 && flywheels.rightFly.motor.velocity > 20) {
+                        // servo stuff
+                        outTake = OutTake.INTAKE_OUT
+                    }
+                }
+
+                OutTake.INTAKE_OUT -> {
+
+                    //servo stuff
+                    outTake = OutTake.OUTTAKE_START
+                }
+            }
+
             drive.stickTankEffort(controller1.right_stick_x, -controller1.left_stick_y)
             flywheels.runMotors()
             drive.runMotors()
@@ -87,6 +116,7 @@ class ScrimTele : LinearOpMode(){
             // not shooting closed, 0.15, 0.55
             // shooting pos 0.7 for intake/right
             telemetry.addData("leftflycurrent", flywheels.leftFly.motor.getCurrent(CurrentUnit.AMPS))
+            telemetry.addData("rightflycurrent", flywheels.rightFly.motor.getCurrent(CurrentUnit.AMPS))
             telemetry.addData("intake2pos",intake2.position)
             telemetry.addData("intakepos",intake.position)
             telemetry.update()
