@@ -28,6 +28,7 @@ class ScrimTele : LinearOpMode(){
         val flywheels = flywheels(hardwareMap)
         val controller1 = Controller(gamepad1)
         var outTake: OutTake = OutTake.OUTTAKE_OPEN
+        var done = false
         var timer = ElapsedTime()
         waitForStart()
         val allHubs = hardwareMap.getAll<LynxModule?>(LynxModule::class.java)
@@ -76,9 +77,11 @@ class ScrimTele : LinearOpMode(){
                         intake.position = 0.7
                         timer.reset()
                         timer.startTime()
+                        done = true
                     }
-                    if (timer.seconds() >0.2){
+                    if (timer.seconds() >0.2 && done){
                         outTake = OutTake.OUTTAKE_OPEN
+                        done = false
                     }
 
                 }
