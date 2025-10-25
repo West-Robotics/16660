@@ -66,19 +66,27 @@ class ScrimTele : LinearOpMode(){
                 intake2.position = 0.15
                 intake.position = 0.55
             }
+            //halfway
+            if(controller1.aOnce()){
+                intake2.position = 0.24
+                intake.position = 0.55
+            }
+
             //shooting
             if (controller1.right_trigger>0.1){
                 flywheels.maxPower()
+                flywheels.runMotors()
                 sleep(1000)
                 intake.position = 0.7
             } else{
-                flywheels.zeroPower() 
+                flywheels.zeroPower()
             }
 
 
             // open intake2/left is 0.55, intake/right is 0.25
             // not shooting closed, 0.15, 0.55
             // shooting pos 0.7 for intake/right
+            telemetry.addData("leftflycurrent", flywheels.leftFly.motor.getCurrent(CurrentUnit.AMPS))
             telemetry.addData("intake2pos",intake2.position)
             telemetry.addData("intakepos",intake.position)
             telemetry.update()
