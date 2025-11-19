@@ -1,10 +1,9 @@
-package org.firstinspires.ftc.teamcode
-import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1
+package org.firstinspires.ftc.teamcode.TeleOp.Scrim
+
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.mechanisms.flywheels
@@ -31,7 +30,7 @@ class ScrimTeleOp2Controllers: LinearOpMode(){
             controller2.update()
             drive.stickTankEffort(controller1.right_stick_x, -controller1.left_stick_y)
             flywheels.runMotors()
-            drive.runMotors()
+            drive.write()
 
             //open
             if (controller2.leftBumperOnce()){

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.TeleOp.Scrim
 
 import com.qualcomm.hardware.lynx.LynxModule
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
@@ -10,12 +10,12 @@ import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.mechanisms.flywheels
 import org.firstinspires.ftc.teamcode.setup.Controller
 
-
 @TeleOp(name="ScrimTeleOp1Controller")
 class ScrimTele : LinearOpMode(){
 
     enum class OutTake {
         OUTTAKE_OPEN,
+        OUTTAKE_CLOSED2,
         OUTTAKE_CLOSED,
         RUN_FLY_MOTORS,
         PUSH_SERVO,
@@ -41,146 +41,86 @@ class ScrimTele : LinearOpMode(){
                 hub.clearBulkCache()
             }
             controller1.update()
-
             drive.stickTankEffort(controller1.right_stick_x, -controller1.left_stick_y)
-            flywheels.runMotors()
-            drive.runMotors()
-
             when (outTake) {
                 OutTake.OUTTAKE_OPEN ->{
                     intake.position = 0.25
                     intake2.position = 0.55
+                    flywheels.zeroPower()
                     //close the servos
                     if (controller1.rightBumperOnce()){
                         outTake = OutTake.OUTTAKE_CLOSED
                     }
+                    if ( controller1.left_trigger > 0.1){
+                        outTake = OutTake.OUTTAKE_CLOSED2
+                    }
+                }
+                OutTake.OUTTAKE_CLOSED2 -> {
+                    // to hold two balls
+                    intake.position = 0.36
+                    intake2.position = 0.27;888888888
+                    flywheels.zeroPower()
+                    if(controller1.rightBumperOnce()){
+                        outTake = OutTake.OUTTAKE_CLOSED
+                    }
+                    if (controller1.leftBumperOnce()){
+                        outTake = OutTake.OUTTAKE_OPEN
+                    }
+                    if (controller1.right_trigger>0.2){
+                        outTake = OutTake.RUN_FLY_MOTORS
+                    }
                 }
                 OutTake.OUTTAKE_CLOSED ->{
-                    // open the servos
                     intake.position = 0.55
-                    intake2.position = 0.15
+                    intake2.position = 0.15 //0.15
+                    // open the servos
                     if (controller1.leftBumperOnce()){
                         outTake = OutTake.OUTTAKE_OPEN
                     }
                     // run the motors
-                    if (controller1.rightBumperOnce()){
+                    if (controller1.right_trigger>0.2){
                         outTake = OutTake.RUN_FLY_MOTORS
+                    }
+                    if ( controller1.left_trigger > 0.1){
+                        outTake = OutTake.OUTTAKE_CLOSED2
                     }
                 }
                 OutTake.RUN_FLY_MOTORS ->{
+                    intake2.position = 0.10
                     flywheels.maxPower()
                     flywheels.runMotors()
                     outTake = OutTake.PUSH_SERVO
                 }
                 OutTake.PUSH_SERVO ->{
-                    if (flywheels.rightFly.motor.velocity>1000 && flywheels.leftFly.motor.velocity>1000){
+                    if (flywheels.rightFly.motor.velocity>2380 && flywheels.leftFly.motor.velocity>2380 && !done){
                         intake.position = 0.7
                         timer.reset()
                         timer.startTime()
                         done = true
                     }
-                    if (timer.seconds() >0.2 && done){
+                    if (timer.seconds() >0.75 && done){
+                        flywheels.zeroPower()
                         outTake = OutTake.OUTTAKE_OPEN
                         done = false
                     }
-
-                }
-
-
-            }
-            /*
-            when (outTake) {
-                OutTake.OUTTAKE_START -> {
-                    if (controller1.dpad_UpOnce()) {
-                        outTake = OutTake.PUSH_SERVO
+                    if (controller1.leftBumperOnce()){
+                        outTake = OutTake.OUTTAKE_OPEN
                     }
                 }
-
-                OutTake.PUSH_SERVO -> {
-                    if (flywheels.leftFly.motor.velocity > 20 && flywheels.rightFly.motor.velocity > 20) {
-                        intake.position = 0.7
-                        timer.reset()
-                        timer.startTime()
-                        outTake = OutTake.INTAKE_OUT
-                    }
-                }
-
-                OutTake.INTAKE_OUT -> {
-                    if (timer.seconds()>0.2){
-                        intake.position = 0.25
-                        intake2.position = 0.55
-                    }
-                    outTake = OutTake.OUTTAKE_START
-                }
             }
-
-             */
-            /*
-            if (controller1.xOnce()){
-                intake.position = 0.5 // left side
-            }
-
-            if (controller1.yOnce()){
-                intake.position += 0.05
-            }
-
-            if (controller1.aOnce()){
-                intake.position -= 0.05
-            }
-
-
-            if (controller1.dpad_LeftOnce()){
-                intake2.position = 0.5 // right side
-            }
-
-            if (controller1.dpad_UpOnce()){
-                intake2.position += 0.05
-            }
-
-            if (controller1.dpad_DownOnce()){
-                intake2.position -= 0.05
-            }
-             */
-            /*
-            //open
-            if (controller1.leftBumperOnce()){
-                intake2.position = 0.55
-                intake.position = 0.25
-            }
-            //closed
-            if (controller1.rightBumperOnce()){
-                intake2.position = 0.15
-                intake.position = 0.55
-            }
-            //halfway
-            if(controller1.aOnce()){
-                intake2.position = 0.24
-                intake.position = 0.55
-            }
-
-            //shooting
-            if (controller1.right_trigger>0.1){
-                flywheels.maxPower()
-                flywheels.runMotors()
-                sleep(1000)
-                intake.position = 0.7
-            } else{
-                flywheels.zeroPower()
-            }
-
-             */
-
+            flywheels.runMotors()
+            drive.write()
 
             // open intake2/left is 0.55, intake/right is 0.25
             // not shooting closed, 0.15, 0.55
             // shooting pos 0.7 for intake/right
+            telemetry.addData("leftflymotorvelocity", flywheels.leftFly.motor.velocity)
+            telemetry.addData("rightflymotorvelocity",flywheels.rightFly.motor.velocity)
             telemetry.addData("leftflycurrent", flywheels.leftFly.motor.getCurrent(CurrentUnit.AMPS))
             telemetry.addData("rightflycurrent", flywheels.rightFly.motor.getCurrent(CurrentUnit.AMPS))
             telemetry.addData("intake2pos",intake2.position)
             telemetry.addData("intakepos",intake.position)
             telemetry.update()
-
-
         }
     }
 }

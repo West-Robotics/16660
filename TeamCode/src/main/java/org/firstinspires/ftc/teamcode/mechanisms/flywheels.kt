@@ -30,8 +30,8 @@ class flywheels(hardwareMap: HardwareMap) {
     }
 
     fun runMotors(){
-        leftFly.toPower()
-        rightFly.toPower()
+        leftFly.write()
+        rightFly.write()
     }
 
 

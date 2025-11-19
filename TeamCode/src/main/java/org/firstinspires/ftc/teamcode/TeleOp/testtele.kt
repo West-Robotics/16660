@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode
+package org.firstinspires.ftc.teamcode.TeleOp
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
@@ -31,8 +31,8 @@ class testtele : LinearOpMode(){
             } else{
                 leftMotor.effort = 0.0
             }
-            rightMotor.toPower()
-            leftMotor.toPower()
+            rightMotor.write()
+            leftMotor.write()
         }
     }
 

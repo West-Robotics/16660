@@ -53,12 +53,12 @@ class drivetrain (hardwareMap: HardwareMap, setupMecanum: Boolean){
 
 
 
-    fun runMotors(){
-        frontLeft.toPower()
-        frontRight.toPower()
+    fun write(){
+        frontLeft.write()
+        frontRight.write()
         if (mecanum) {
-            backLeft.toPower()
-            backRight.toPower()
+            backLeft.write()
+            backRight.write()
         }
     }
 

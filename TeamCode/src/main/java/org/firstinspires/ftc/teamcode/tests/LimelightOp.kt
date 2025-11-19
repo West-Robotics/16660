@@ -5,14 +5,10 @@ import com.qualcomm.hardware.limelightvision.Limelight3A
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
-import com.qualcomm.robotcore.hardware.IMU
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.setup.Controller
-import org.firstinspires.ftc.teamcode.testtele
-import kotlin.time.Duration.Companion.seconds
 
 @TeleOp(name="Limelighter")
 class LimelightOp: LinearOpMode() {
@@ -62,14 +58,14 @@ class LimelightOp: LinearOpMode() {
                 drive.frontLeft.effort = -power
                 drive.backRight.effort = power
                 drive.backLeft.effort = -power
-                drive.runMotors()
+
             }
             if (controller1.b()){
                 var power = PIDController(llResult.tx,0.2,0.0,0.5)
                 drive.mecanumEffort(0.0,0.0,power)
-                drive.runMotors()
-            }
 
+            }
+            drive.write()
         }
 
     }

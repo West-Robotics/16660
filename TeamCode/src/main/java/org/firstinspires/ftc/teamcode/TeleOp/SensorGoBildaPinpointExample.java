@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.TeleOp;
 /*   MIT License
  *   Copyright (c) [2025] [Base 10 Assets, LLC]
  *
@@ -28,7 +28,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
+import org.firstinspires.ftc.teamcode.setup.Controller;
 import org.firstinspires.ftc.teamcode.setup.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.mechanisms.drivetrain;
 
 
 import java.util.Locale;
@@ -66,6 +68,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
 
+    Controller controller1;
+    drivetrain drive;
     double oldTime = 0;
 
 
@@ -76,7 +80,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
-
+        drive = new drivetrain(hardwareMap,true);
+        controller1 = new Controller(gamepad1);
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
         The X pod offset refers to how far sideways from the tracking point the
@@ -130,7 +135,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
+            controller1.update();
+            drive.mecanumEffort(controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x);
             /*
             Request an update from the Pinpoint odometry computer. This checks almost all outputs
             from the device in a single I2C read.
