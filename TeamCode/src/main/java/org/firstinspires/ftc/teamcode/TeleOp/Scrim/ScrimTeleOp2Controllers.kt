@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit
+import org.firstinspires.ftc.teamcode.mechanisms.DrivetrainTank
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.mechanisms.flywheels
 import org.firstinspires.ftc.teamcode.setup.Controller
@@ -14,7 +15,7 @@ class ScrimTeleOp2Controllers: LinearOpMode(){
     override fun runOpMode() {
         val intake = hardwareMap.get("intake") as Servo
         val intake2 = hardwareMap.get("intake2") as Servo
-        val drive = drivetrain(hardwareMap, false)
+        val drive = DrivetrainTank(hardwareMap)
         val flywheels = flywheels(hardwareMap)
         val controller1 = Controller(gamepad1)
         val controller2 = Controller(gamepad2)
@@ -28,7 +29,7 @@ class ScrimTeleOp2Controllers: LinearOpMode(){
             controller1.update()
             // controller 2 is the intake and shooter controller
             controller2.update()
-            drive.stickTankEffort(controller1.right_stick_x, -controller1.left_stick_y)
+            drive.stickEffort(controller1.right_stick_x, -controller1.left_stick_y)
             flywheels.runMotors()
             drive.write()
 

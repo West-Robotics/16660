@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 class MecanumDrive: LinearOpMode(){
 
     override fun runOpMode(){
-        val drive = drivetrain(hardwareMap,true)
+        val drive = drivetrain(hardwareMap)
         val controller1 = Controller(gamepad1)
 
         waitForStart()

@@ -80,7 +80,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
-        drive = new drivetrain(hardwareMap,true);
+        drive = new drivetrain(hardwareMap);
         controller1 = new Controller(gamepad1);
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
