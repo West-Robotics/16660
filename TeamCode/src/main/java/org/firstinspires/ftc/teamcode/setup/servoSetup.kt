@@ -4,8 +4,8 @@ package org.firstinspires.ftc.teamcode.setup
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.qualcomm.robotcore.hardware.Servo
 import kotlin.math.abs
-class servoSetup(hardwareMap: HardwareMap) {
-
+class servoSetup(hardwareMap: HardwareMap,name:String) {
+    val servo = hardwareMap.get(name)
     private var _postion = 0.0
 
     var position: Double

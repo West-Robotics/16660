@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.setup
 
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
+import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D
 
 class Pinpoint(hardwareMap: HardwareMap, name: String = "pinpoint") {
@@ -17,8 +18,13 @@ class Pinpoint(hardwareMap: HardwareMap, name: String = "pinpoint") {
         )
         odo.resetPosAndIMU()
     }
-    val pos
+    val pos: Pose2D
         get()=odo.position
+
+    val frequency
+        get()=odo.frequency
+
+
     fun update() {odo.update()}
     fun resetPosAndIMU() {odo.resetPosAndIMU()}
 
