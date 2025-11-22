@@ -49,7 +49,6 @@ class LimelightOp: LinearOpMode() {
                 telemetry.addData("BotPoseMT2", botPoseMT2.toString())
                 telemetry.addData("LL Yaw",botPose.orientation.yaw)
                 //telemetry.addData("IMU Yaw Pitch Roll", imu.robotYawPitchRollAngles)
-                telemetry.update()
 
             }
             if (controller1.a()){
@@ -66,6 +65,7 @@ class LimelightOp: LinearOpMode() {
 
             }
             drive.write()
+            telemetry.update()
         }
 
     }
