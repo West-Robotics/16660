@@ -27,5 +27,6 @@ class Pinpoint(hardwareMap: HardwareMap, name:String = "pinpoint") {
 
     fun update() {odo.update()}
     fun resetPosAndIMU() {odo.resetPosAndIMU()}
+    fun setPos(reference: Pose2D){odo.position = reference}
 
 }
