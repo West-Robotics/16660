@@ -21,7 +21,7 @@ class LimelightOp: LinearOpMode() {
         val limelight = hardwareMap.get("Limelight") as Limelight3A
         limelight.pipelineSwitch(7)
         // val imu = hardwareMap.get("imu") as IMU
-        val drive = drivetrain(hardwareMap)
+        val drive = drivetrain(hardwareMap,telemetry)
         val controller1 = Controller(gamepad1)
 
         var revHubOrientationOnRobot = RevHubOrientationOnRobot(

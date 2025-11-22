@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 class MecanumDrive: LinearOpMode(){
 
     override fun runOpMode(){
-        val drive = drivetrain(hardwareMap)
+        val drive = drivetrain(hardwareMap, telemetry)
         val controller1 = Controller(gamepad1)
 
         waitForStart()
@@ -19,8 +19,8 @@ class MecanumDrive: LinearOpMode(){
             controller1.update()
             drive.fieldCentricEffort(-controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x)
             drive.write()
+            drive.addTelemetry()
             telemetry.addData("voltage",hardwareMap.voltageSensor.iterator().next().voltage)
-            telemetry.addData("frontleft",drive.frontLeft.motor.getCurrent(CurrentUnit.AMPS))
             telemetry.update()
 
         }

@@ -21,6 +21,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
  *   SOFTWARE.
  */
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -29,7 +30,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.teamcode.setup.Controller;
-import org.firstinspires.ftc.teamcode.setup.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain;
 
 
@@ -61,9 +61,9 @@ For support, contact tech@gobilda.com
 -Ethan Doak
  */
 
-@TeleOp(name="goBILDA Pinpoint Example", group="Linear OpMode")
-//@Disabled
 
+//@Disabled
+@TeleOp
 public class SensorGoBildaPinpointExample extends LinearOpMode {
 
     GoBildaPinpointDriver odo; // Declare OpMode member for the Odometry Computer
@@ -80,7 +80,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         // to the names assigned during the robot configuration step on the DS or RC devices.
 
         odo = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
-        drive = new drivetrain(hardwareMap);
+        drive = new drivetrain(hardwareMap,telemetry);
         controller1 = new Controller(gamepad1);
         /*
         Set the odometry pod positions relative to the point that the odometry computer tracks around.
@@ -107,7 +107,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         increase when you move the robot forward. And the Y (strafe) pod should increase when
         you move the robot to the left.
          */
-        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+        odo.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
 
         /*
@@ -136,7 +136,8 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
             controller1.update();
-            drive.mecanumEffort(controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x);
+            drive.mecanumEffort(-controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x);
+            drive.write();
             /*
             Request an update from the Pinpoint odometry computer. This checks almost all outputs
             from the device in a single I2C read.
@@ -199,6 +200,7 @@ public class SensorGoBildaPinpointExample extends LinearOpMode {
             telemetry.addData("Pinpoint Frequency", odo.getFrequency()); //prints/gets the current refresh rate of the Pinpoint
 
             telemetry.addData("REV Hub Frequency: ", frequency); //prints the control system refresh rate
+            telemetry.addData("pinpoint",odo.getPosition());
             telemetry.update();
 
         }

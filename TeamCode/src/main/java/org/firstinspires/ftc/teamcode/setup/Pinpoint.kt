@@ -1,11 +1,11 @@
 package org.firstinspires.ftc.teamcode.setup
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit
-import org.firstinspires.ftc.robotcore.external.navigation.MotionDetection
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D
 
-class Pinpoint(hardwareMap: HardwareMap, name: String = "pinpoint") {
+class Pinpoint(hardwareMap: HardwareMap, name:String = "pinpoint") {
 
     private val odo = hardwareMap.get(name) as GoBildaPinpointDriver
 
@@ -13,7 +13,7 @@ class Pinpoint(hardwareMap: HardwareMap, name: String = "pinpoint") {
         odo.setOffsets(-2.125, 1.625, DistanceUnit.INCH)
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
         odo.setEncoderDirections(
-            GoBildaPinpointDriver.EncoderDirection.FORWARD,
+            GoBildaPinpointDriver.EncoderDirection.REVERSED,
             GoBildaPinpointDriver.EncoderDirection.FORWARD
         )
         odo.resetPosAndIMU()
