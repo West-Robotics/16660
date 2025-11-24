@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Architecture
+package org.firstinspires.ftc.teamcode.architecture
 
 class CommandScheduler {
     private val activeCommands = mutableSetOf<Command>()

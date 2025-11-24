@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.Architecture
+package org.firstinspires.ftc.teamcode.architecture
 
 import kotlinx.coroutines.*
 
-class CoroutineCommand(
+abstract class CoroutineCommand(
     val func: suspend CoroutineScope.() -> Unit
 ) : Command(){
     private var job: Job? = null
