@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.architecture
 interface BaseCommand {
     fun initialize() {}
     fun execute() {}
-    fun isFinished():Boolean
+    fun isFinished(): Boolean = true
     fun end(interrupted: Boolean){}
 
     fun schedule(){}
