@@ -1,36 +1,43 @@
 package org.firstinspires.ftc.teamcode.architecture
 
-abstract class Command: BaseCommand{
+abstract class Command{
+    var requirements = mutableSetOf<Subsystem>()
     private var isScheduled = false
 
-    override fun initialize() {}
-    override fun execute() {}
-    override fun isFinished(): Boolean = true
-    override fun end(interrupted: Boolean){}
+    open fun initialize() {}
+    open fun execute() {}
+    open fun isFinished(): Boolean = true
+    open fun end(interrupted: Boolean){}
 
-    override fun schedule() {
+    fun schedule() {
         if (!isScheduled){
             isScheduled = true
             initialize()
         }
     }
-    override fun run() {
+    fun run() {
         execute()
     }
-    override fun shouldFinish() = isFinished()
+    fun shouldFinish() = isFinished()
 
-    override fun cancel() {
+    fun cancel() {
         if (isScheduled){
             end(true)
             isScheduled = false
         }
     }
-    override fun finish() {
+    fun finish() {
         if (isScheduled){
             end(false)
             isScheduled = false
         }
 
     }
-    override fun getRequirements(): Set<Subsystem> = emptySet()
+    fun addRequirements(vararg subsystem: Subsystem){
+        subsystem.forEach { requirements.add(it) }
+    }
+    fun getRequirements() = requirements
+    fun andThen(next:Command): Command = SequenceCommand(this,next)
+    fun alongWith(parallel: Command): Command = ParallelCommand(this,parallel)
+
 }
