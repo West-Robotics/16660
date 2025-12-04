@@ -17,8 +17,10 @@ class IntakeSubsystem(hardwareMap: HardwareMap): Subsystem() {
         intakeMotor.effort = power
     }
 
-    fun write(){
+    override fun write(){
         intakeMotor.write()
     }
+
+
 
 }

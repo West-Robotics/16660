@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.architecture
 
-class CommandScheduler {
+object CommandScheduler {
     private val activeCommands = mutableSetOf<Command>()
     private val requirements = mutableMapOf<Subsystem, Command>()
 
@@ -30,6 +30,7 @@ class CommandScheduler {
                 cmd.getRequirements().forEach { requirements.remove(it)}
             }
         }
+        requirements.keys.forEach { it.write() }
     }
 
     fun cancelAll() {

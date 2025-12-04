@@ -6,7 +6,7 @@ abstract class Command{
 
     open fun initialize() {}
     open fun execute() {}
-    open fun isFinished(): Boolean = true
+    open fun isFinished(): Boolean = false
     open fun end(interrupted: Boolean){}
 
     fun schedule() {

@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.util.robotconstants
+package org.firstinspires.ftc.teamcode.util
 
-class Spindexerconstants {
-    public enum class SpindexerPosition(pos1:Double){
+class Robotconstants {
+    public enum class SpindexerPosition(var pos1:Double){
         ONE_INTAKE(0.0),
         TWO_INTAKE(0.0),
         THREE_INTAKE(0.0),
@@ -9,12 +9,12 @@ class Spindexerconstants {
         TWO_SHOOT(0.0),
         THREE_SHOOT(0.0)
     }
-    public enum class OuttakeBallPower(speedServo1:Double,speedServo2:Double){
+    public enum class OuttakeBallPower(var speedServo1:Double,var speedServo2:Double){
         ON(0.0,0.0),
         OFF(0.0,0.0)
     }
 
-    public enum class intakeMotorPower(power:Double){
+    enum class IntakeMotorPower(var power:Double){
         INTAKE(1.0),
         STOP(0.0),
         OUTTAKE(-0.5)
