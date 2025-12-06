@@ -19,10 +19,12 @@ class DrivetrainTank (
         frontLeft.effort = leftInput
         frontRight.effort = rightInput
     }
+
     fun stickEffort(x:Double,y:Double){
         frontLeft.effort = ((y+x)/max(abs(y) + abs(x),1.0)).pow(5)
         frontRight.effort = ((y-x)/max(abs(y) + abs(x),1.0)).pow(5)
     }
+
     fun write(){
         frontLeft.write()
         frontRight.write()
