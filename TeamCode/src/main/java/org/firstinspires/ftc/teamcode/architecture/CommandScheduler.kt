@@ -5,7 +5,7 @@ object CommandScheduler {
     private val requirements = mutableMapOf<Subsystem, Command>()
 
     fun schedule(command: Command){
-        for (sub in command.getRequirements()){
+        for (sub in command.requirements){
             val blocking = requirements[sub]
             if (blocking != null){
                 blocking.cancel()
@@ -13,7 +13,7 @@ object CommandScheduler {
                 requirements.remove(sub)
             }
         }
-        command.getRequirements().forEach { requirements[it] = command }
+        command.requirements.forEach { requirements[it] = command }
         activeCommands.add(command)
         command.schedule()
 
@@ -27,7 +27,7 @@ object CommandScheduler {
             if (cmd.shouldFinish()){
                 cmd.finish()
                 iterator.remove()
-                cmd.getRequirements().forEach { requirements.remove(it)}
+                cmd.requirements.forEach { requirements.remove(it)}
             }
         }
         requirements.keys.forEach { it.write() }

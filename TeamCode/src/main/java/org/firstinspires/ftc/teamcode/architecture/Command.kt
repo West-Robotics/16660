@@ -36,7 +36,6 @@ abstract class Command{
     fun addRequirements(vararg subsystem: Subsystem){
         subsystem.forEach { requirements.add(it) }
     }
-    fun getRequirements() = requirements
     fun andThen(next:Command): Command = SequenceCommand(this,next)
     fun alongWith(parallel: Command): Command = ParallelCommand(this,parallel)
 

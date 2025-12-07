@@ -8,7 +8,7 @@ class SequenceCommand(vararg command: Command): Command(){
     private var index: Int = 0
 
     init{
-        command.forEach { cmd -> requirements.addAll(cmd.getRequirements()) }
+        command.forEach { cmd -> requirements.addAll(cmd.requirements) }
     }
 
     override fun initialize() {

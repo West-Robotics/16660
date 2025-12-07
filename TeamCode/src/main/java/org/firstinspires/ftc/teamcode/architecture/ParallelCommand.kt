@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.architecture
 class ParallelCommand(vararg command:Command):Command() {
     private val command = command.toList()
     init {
-        command.forEach { cmd -> requirements.addAll(cmd.getRequirements()) }
+        command.forEach { cmd -> requirements.addAll(cmd.requirements) }
     }
 
     override fun initialize() {
