@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.architecture
 
 abstract class Command{
     var requirements = mutableSetOf<Subsystem>()
-    private var isScheduled = false
+    var isScheduled = false
 
     open fun initialize() {}
     open fun execute() {}
@@ -38,5 +38,4 @@ abstract class Command{
     }
     fun andThen(next:Command): Command = SequenceCommand(this,next)
     fun alongWith(parallel: Command): Command = ParallelCommand(this,parallel)
-
 }
