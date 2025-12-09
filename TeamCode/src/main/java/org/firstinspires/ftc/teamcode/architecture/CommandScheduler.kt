@@ -1,42 +1,80 @@
 package org.firstinspires.ftc.teamcode.architecture
-
 object CommandScheduler {
-    private val activeCommands = mutableSetOf<Command>()
-    private val requirements = mutableMapOf<Subsystem, Command>()
+    private val scheduledCommands = mutableMapOf<Command, MutableSet<Subsystem>>()
+    private val subsystemCommands = mutableMapOf<Subsystem, Command>()
+    private val defaultCommands = mutableMapOf<Subsystem, Command>()
+    private val registeredSubsystems = mutableSetOf<Subsystem>()
+    private val triggers = mutableListOf<Pair<Trigger, (Boolean) -> Unit>>()
 
-    fun schedule(command: Command){
-        for (sub in command.requirements){
-            val blocking = requirements[sub]
-            if (blocking != null){
-                blocking.cancel()
-                activeCommands.remove(blocking)
-                requirements.remove(sub)
-            }
-        }
-        command.requirements.forEach { requirements[it] = command }
-        activeCommands.add(command)
-        command.schedule()
-
+    fun registerSubsystem(subsystem: Subsystem) {
+        registeredSubsystems.add(subsystem)
     }
-    fun run() {
-        requirements.keys.forEach {it.periodic()}
-        val iterator = activeCommands.iterator()
-        while(iterator.hasNext()){
-            val cmd = iterator.next()
-            cmd.run()
-            if (cmd.shouldFinish()){
-                cmd.finish()
-                iterator.remove()
-                cmd.requirements.forEach { requirements.remove(it)}
+
+    fun setDefaultCommand(subsystem: Subsystem, command: Command) {
+        defaultCommands[subsystem] = command
+    }
+
+    fun registerTrigger(trigger: Trigger, action: (Boolean) -> Unit) {
+        triggers.add(trigger to action)
+    }
+
+    fun schedule(command: Command) {
+        val requirements = command.requirements
+
+        // Check for conflicts
+        for (subsystem in requirements) {
+            subsystemCommands[subsystem]?.let { currentCommand ->
+                cancel(currentCommand)
             }
         }
-        requirements.keys.forEach { it.write() }
+
+        // Schedule the command
+        scheduledCommands[command] = requirements.toMutableSet()
+        requirements.forEach { subsystemCommands[it] = command }
+        command.initialize()
+    }
+
+    fun cancel(command: Command) {
+        scheduledCommands[command]?.forEach { subsystem ->
+            subsystemCommands.remove(subsystem)
+        }
+        scheduledCommands.remove(command)
+        command.end(true)
+    }
+
+    fun run() {
+        // Process all triggers first
+        triggers.forEach { (trigger, action) ->
+            action(trigger.getState())
+        }
+
+        // Run all subsystem periodic methods
+        registeredSubsystems.forEach { it.periodic() }
+
+        // Run scheduled commands
+        val iterator = scheduledCommands.iterator()
+        while (iterator.hasNext()) {
+            val (command, _) = iterator.next()
+            command.execute()
+
+            if (command.isFinished()) {
+                command.end(false)
+                command.requirements.forEach { subsystem ->
+                    subsystemCommands.remove(subsystem)
+                }
+                iterator.remove()
+            }
+        }
+
+        // Schedule default commands for idle subsystems
+        registeredSubsystems.forEach { subsystem ->
+            if (subsystem !in subsystemCommands) {
+                defaultCommands[subsystem]?.schedule()
+            }
+        }
     }
 
     fun cancelAll() {
-        activeCommands.forEach { it.cancel() }
-        activeCommands.clear()
-        requirements.clear()
+        scheduledCommands.keys.toList().forEach { cancel(it) }
     }
-
 }
