@@ -69,5 +69,3 @@ class Trigger(private val condition: () -> Boolean) {
     fun getState() = condition()
 }
 
-// Gamepad trigger helpers
-fun gamepadButton(button: () -> Boolean) = Trigger(button)

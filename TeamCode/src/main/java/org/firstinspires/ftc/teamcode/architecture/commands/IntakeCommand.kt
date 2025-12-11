@@ -1,20 +1,22 @@
 package org.firstinspires.ftc.teamcode.architecture.commands
 
-import org.firstinspires.ftc.teamcode.architecture.subsystems.IntakeSubsystem
+import  org.firstinspires.ftc.teamcode.architecture.subsystems.IntakeSubsystem
 import org.firstinspires.ftc.teamcode.architecture.Command
 import org.firstinspires.ftc.teamcode.util.Robotconstants
 
-class IntakeCommand(private val intake: IntakeSubsystem, private val toggle: Boolean) :Command(){
+class IntakeCommand(private val intake: IntakeSubsystem, private val toggle: Boolean?) :Command(){
     var intakeval = Robotconstants.IntakeMotorPower.STOP
 
     init {
         addRequirements(intake)
     }
     override fun initialize() {
-        if (toggle) {
+        if (toggle ==true) {
             intakeval = Robotconstants.IntakeMotorPower.INTAKE
-        }   else {
+        }   else if(toggle == false){
             intakeval = Robotconstants.IntakeMotorPower.STOP
+        } else{
+            intakeval = Robotconstants.IntakeMotorPower.OUTTAKE
         }
     }
 

@@ -21,17 +21,14 @@ object CommandScheduler {
     fun schedule(command: Command) {
         val requirements = command.requirements
 
-        // Check for conflicts
         for (subsystem in requirements) {
             subsystemCommands[subsystem]?.let { currentCommand ->
                 cancel(currentCommand)
             }
         }
 
-        // Schedule the command
         scheduledCommands[command] = requirements.toMutableSet()
         requirements.forEach { subsystemCommands[it] = command }
-        command.initialize()
     }
 
     fun cancel(command: Command) {
@@ -43,15 +40,12 @@ object CommandScheduler {
     }
 
     fun run() {
-        // Process all triggers first
         triggers.forEach { (trigger, action) ->
             action(trigger.getState())
         }
 
-        // Run all subsystem periodic methods
         registeredSubsystems.forEach { it.periodic() }
 
-        // Run scheduled commands
         val iterator = scheduledCommands.iterator()
         while (iterator.hasNext()) {
             val (command, _) = iterator.next()
@@ -66,12 +60,12 @@ object CommandScheduler {
             }
         }
 
-        // Schedule default commands for idle subsystems
         registeredSubsystems.forEach { subsystem ->
             if (subsystem !in subsystemCommands) {
                 defaultCommands[subsystem]?.schedule()
             }
         }
+        registeredSubsystems.forEach { it.write() }
     }
 
     fun cancelAll() {

@@ -14,6 +14,7 @@ abstract class Command{
             isScheduled = true
             initialize()
         }
+        CommandScheduler.schedule(this)
     }
     fun run() {
         execute()
