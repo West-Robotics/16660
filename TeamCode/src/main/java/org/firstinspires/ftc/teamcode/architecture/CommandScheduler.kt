@@ -5,6 +5,7 @@ object CommandScheduler {
     private val defaultCommands = mutableMapOf<Subsystem, Command>()
     private val registeredSubsystems = mutableSetOf<Subsystem>()
     private val triggers = mutableListOf<Pair<Trigger, (Boolean) -> Unit>>()
+    private val doneCommands = mutableListOf<Command>()
 
     fun registerSubsystem(subsystem: Subsystem) {
         registeredSubsystems.add(subsystem)
@@ -52,10 +53,7 @@ object CommandScheduler {
             command.execute()
 
             if (command.isFinished()) {
-                command.end(false)
-                command.requirements.forEach { subsystem ->
-                    subsystemCommands.remove(subsystem)
-                }
+                doneCommands.add(command)
                 iterator.remove()
             }
         }
@@ -66,6 +64,14 @@ object CommandScheduler {
             }
         }
         registeredSubsystems.forEach { it.write() }
+
+        doneCommands.forEach {
+            it.end(false)
+            it.requirements.forEach { subsystem ->
+                subsystemCommands.remove(subsystem)
+            }
+        }
+
     }
 
     fun cancelAll() {

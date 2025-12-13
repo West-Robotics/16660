@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.util.CRServoConstants
 
 class CRservoSetup(hardwareMap: HardwareMap,
                    name: String,
-                   direction: DcMotorSimple.Direction = DcMotorSimple.Direction.FORWARD,
-                   pwm : CRServoConstants) {
+                   pwm : CRServoConstants,
+                   direction: DcMotorSimple.Direction = DcMotorSimple.Direction.FORWARD) {
     val servo = hardwareMap.get(name) as CRServoImplEx
 
     init{

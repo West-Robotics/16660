@@ -11,6 +11,8 @@ import org.firstinspires.ftc.teamcode.setup.Controller
 
 abstract class CommandOpMode : LinearOpMode(){
     lateinit var gamer1: Gamepad
+
+    lateinit var gamer2: Gamepad
     lateinit var drive: drivetrain
     lateinit var intake: IntakeSubsystem
 
