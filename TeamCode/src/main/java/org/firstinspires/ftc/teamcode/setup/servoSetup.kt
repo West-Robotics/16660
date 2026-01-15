@@ -16,7 +16,8 @@ class servoSetup(hardwareMap: HardwareMap,
 
     init {
         servo.direction = direction
-        servo.pwmRange = PwmControl.PwmRange(pwm.min,pwm.max)
+        servo.pwmRange = PwmControl.PwmRange(pwm.min,pwm.max,4000.0)
+        servo.scaleRange(0.0,1.0)
     }
     private var _postion = 0.0
 

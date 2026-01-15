@@ -6,31 +6,48 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import org.firstinspires.ftc.teamcode.setup.Controller
 import org.firstinspires.ftc.teamcode.setup.motorSetup
+import org.firstinspires.ftc.teamcode.setup.servoSetup
+import org.firstinspires.ftc.teamcode.util.ServoConstants
+import com.qualcomm.robotcore.hardware.Servo
+import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
+import org.firstinspires.ftc.teamcode.setup.CRservoSetup
+import org.firstinspires.ftc.teamcode.util.CRServoConstants
 
 @TeleOp
 class testtele : LinearOpMode(){
     override fun runOpMode() {
         val leftMotor = motorSetup(hardwareMap,"leftMotor", DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.BRAKE)
         val rightMotor = motorSetup(hardwareMap, "rightMotor", DcMotorSimple.Direction.REVERSE,DcMotor.ZeroPowerBehavior.BRAKE)
+        val servo = servoSetup(hardwareMap,"servo1", ServoConstants.AXON)
+        val servo2 = CRservoSetup(hardwareMap,"servo2", CRServoConstants.AXON)
         val controller1 = Controller(gamepad1)
         waitForStart()
         while (opModeIsActive()){
             controller1.update()
-            if (controller1.b()){
-                rightMotor.effort = 1.0
-            } else if (controller1.y()){
-                rightMotor.effort = -1.0
-            } else
-             {
-                rightMotor.effort = 0.0
+            leftMotor.effort = controller1.left_stick_y
+            servo2.effort = controller1.right_stick_y
+
+            if (controller1.dpad_UpOnce()){
+                servo.position = 1.0
             }
-            if (controller1.x()){
-                leftMotor.effort = 1.0
-            } else if(controller1.a()){
-                leftMotor.effort = -1.0
-            } else{
-                leftMotor.effort = 0.0
+            if (controller1.dpad_DownOnce()){
+                servo.position = 0.0
             }
+            if (controller1.dpad_RightOnce()){
+                servo.position = 0.5
+            }
+            if (controller1.yOnce()){
+                servo.position = servo.position + 0.05
+            }
+            if (controller1.bOnce()){
+                servo.position = servo.position - 0.05
+            }
+
+
+            telemetry.addData("servopos",servo.position)
+            telemetry.update()
+            servo.write()
+            servo2.write()
             rightMotor.write()
             leftMotor.write()
         }

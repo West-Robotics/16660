@@ -17,7 +17,8 @@ class MecanumDrive: LinearOpMode(){
 
         while (opModeIsActive()){
             controller1.update()
-            drive.fieldCentricEffort(-controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x)
+            drive.odoUpdate()
+            drive.mecanumEffort(-controller1.left_stick_y,controller1.left_stick_x,controller1.right_stick_x)
             drive.write()
             drive.addTelemetry()
             telemetry.addData("voltage",hardwareMap.voltageSensor.iterator().next().voltage)

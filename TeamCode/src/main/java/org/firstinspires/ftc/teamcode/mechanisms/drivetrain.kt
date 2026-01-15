@@ -28,12 +28,15 @@ class drivetrain(hardwareMap: HardwareMap,telemetry: Telemetry){
     var YPod: Double = 0.0
     var Heading: Double = 0.0
 
-    fun fieldCentricEffort(y: Double, x: Double, rx: Double){
+    fun odoUpdate(){
         odo.update()
         val pos = odo.pos
         XPod = pos.getX(DistanceUnit.CM)
         YPod = pos.getY(DistanceUnit.CM)
         Heading = pos.getHeading(AngleUnit.DEGREES)
+    }
+
+    fun fieldCentricEffort(y: Double, x: Double, rx: Double){
         var rotX = x * cosDegrees(-Heading) - y * sinDegrees(-Heading)
         var rotY = x * sinDegrees(-Heading) + y * cosDegrees(-Heading)
         rotX = rotX * 1.1 // Counteract imperfect strafing
@@ -44,6 +47,8 @@ class drivetrain(hardwareMap: HardwareMap,telemetry: Telemetry){
         backRight.effort = (rotY + rotX - rx)
     }
 
+
+
     fun mecanumEffort(y:Double, x:Double, rx:Double){
         val denominator = max(abs(x)+abs(y)+abs(rx),1.0)
         frontLeft.effort = (y+x+rx)/denominator
@@ -52,10 +57,7 @@ class drivetrain(hardwareMap: HardwareMap,telemetry: Telemetry){
         backRight.effort = (y+x-rx)/denominator
     }
 
-    fun goTo(target:Double){
-        odo.update()
-        val reference: Pose2D = odo.pos
-    }
+
 
     fun addTelemetry(){
         telemetry.addData("frontLeftAMPS",frontLeft.current)

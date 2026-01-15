@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.setup.motorSetup
 class IntakeSubsystem(hardwareMap: HardwareMap): Subsystem() {
 
     val intakeMotor = motorSetup(hardwareMap,
-        "intakeMotor",
+        "intake",
         DcMotorSimple.Direction.FORWARD,
         DcMotor.ZeroPowerBehavior.BRAKE)
 

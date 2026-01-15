@@ -16,7 +16,7 @@ class CRservoSetup(hardwareMap: HardwareMap,
 
     init{
         servo.direction = direction
-        servo.pwmRange = PwmControl.PwmRange(pwm.min,pwm.max)
+        //servo.pwmRange = PwmControl.PwmRange(pwm.min,pwm.max)
     }
     private var _effort = 0.0
     var effort: Double
