@@ -1,71 +1,68 @@
 package org.firstinspires.ftc.teamcode.architecture
 
+import org.firstinspires.ftc.robotcore.external.Telemetry
+
 class Trigger(private val condition: () -> Boolean) {
-    private var previousState = false
 
-    // Runs command once when condition becomes true
-    fun onTrue(command: Command): Trigger {
-        CommandScheduler.registerTrigger(this) { currentState ->
-            if (currentState && !previousState) {
+    var previous = false
+    var current = false
+    val bindings = mutableListOf<() -> Unit>()
+
+    internal fun update() {
+        current = condition()
+    }
+
+    internal fun fire() {
+        bindings.forEach { it() }
+    }
+
+    internal fun commit() {
+        previous = current
+    }
+    public var pressed = false
+    private fun rising() = current && !previous
+    private fun falling() = !current && previous
+
+    fun onTrue(command: Command, telemetry: Telemetry?): Trigger {
+        bindings += {
+            if (rising()) {
+                pressed = true
                 command.schedule()
             }
-            previousState = currentState
         }
+        CommandScheduler.registerTrigger(this)
         return this
     }
 
-    // Runs command once when condition becomes false
     fun onFalse(command: Command): Trigger {
-        CommandScheduler.registerTrigger(this) { currentState ->
-            if (!currentState && previousState) {
-                command.schedule()
-            }
-            previousState = currentState
+        bindings += {
+            if (falling()) command.schedule()
         }
+        CommandScheduler.registerTrigger(this)
         return this
     }
 
-    // Runs command while condition is true (cancels when false)
-    fun whileTrue(command: Command): Trigger {
-        CommandScheduler.registerTrigger(this) { currentState ->
-            if (currentState && !previousState) {
+    fun whileTrue(command: Command,telemetry: Telemetry): Trigger {
+        bindings += {
+            if (current){
+                telemetry.addLine("fired")
                 command.schedule()
-            } else if (!currentState && previousState) {
+            } else {
                 command.cancel()
             }
-            previousState = currentState
         }
+        CommandScheduler.registerTrigger(this)
         return this
     }
 
-    // Runs command while condition is false (cancels when true)
-    fun whileFalse(command: Command): Trigger {
-        CommandScheduler.registerTrigger(this) { currentState ->
-            if (!currentState && !previousState) {
-                command.schedule()
-            } else if (currentState && previousState) {
-                command.cancel()
-            }
-            previousState = currentState
-        }
-        return this
-    }
-
-    // Toggles command on/off each time condition becomes true
     fun toggleOnTrue(command: Command): Trigger {
-        CommandScheduler.registerTrigger(this) { currentState ->
-            if (currentState && !previousState) {
-                if (command.isScheduled) {
-                    command.cancel()
-                } else {
-                    command.schedule()
-                }
+        bindings += {
+            if (rising()) {
+                if (command.isScheduled) command.cancel()
+                else command.schedule()
             }
-            previousState = currentState
         }
+        CommandScheduler.registerTrigger(this)
         return this
     }
-
-    fun getState() = condition()
 }
-

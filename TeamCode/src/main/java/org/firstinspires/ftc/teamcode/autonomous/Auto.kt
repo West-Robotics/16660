@@ -1,12 +1,10 @@
-package org.firstinspires.ftc.teamcode.Autonomous
+package org.firstinspires.ftc.teamcode.autonomous
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.util.ElapsedTime
 import org.firstinspires.ftc.teamcode.mechanisms.DrivetrainTank
-import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 
-@Autonomous
 class Auto: LinearOpMode() {
 
     override fun runOpMode(){

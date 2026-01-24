@@ -8,16 +8,18 @@ import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 
 @TeleOp(name = "Champs")
 class Bindings: CommandOpMode() {
-    var intakeToggle: Boolean = true
+    public var intakeToggle: Boolean = true
+
     override fun initBindings() {
         gamer1.apply {
-            a.onTrue(IntakeCommand(intake,intakeToggle).alongWith(InstantCommand{intakeToggle = !intakeToggle}))
-            b.onTrue(IntakeCommand(intake,null).alongWith(InstantCommand{intakeToggle = false}))
-            y.whileTrue(AlignCommand(drive))
+            a.onTrue(IntakeCommand(intake,intakeToggle).alongWith(InstantCommand{intakeToggle = !intakeToggle}),telemetry)
+            b.onTrue(IntakeCommand(intake,null).alongWith(InstantCommand{intakeToggle = false}),telemetry)
+            y.whileTrue(AlignCommand(drive),telemetry)
 
         }
     }
 
     override fun addTelemetry() {
+
     }
 }

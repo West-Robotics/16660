@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.setup.CRservoSetup
 import org.firstinspires.ftc.teamcode.util.CRServoConstants
 import com.qualcomm.robotcore.hardware.ColorSensor
 
-@TeleOp
+
 class backup1 : LinearOpMode(){
     override fun runOpMode() {
         val intake = motorSetup(

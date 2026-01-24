@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.mechanisms.flywheels
 import org.firstinspires.ftc.teamcode.setup.Controller
 
-@TeleOp(name="ScrimTeleOp2Controller")
 class ScrimTeleOp2Controllers: LinearOpMode(){
     override fun runOpMode() {
         val intake = hardwareMap.get("intake") as Servo

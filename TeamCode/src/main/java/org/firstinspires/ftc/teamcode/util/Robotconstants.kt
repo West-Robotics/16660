@@ -2,15 +2,18 @@ package org.firstinspires.ftc.teamcode.util
 
 class Robotconstants {
     public enum class SpindexerPosition(var pos1:Double){
-        ONE_INTAKE(0.0),
-        TWO_INTAKE(0.0),
-        THREE_INTAKE(0.0),
-        ONE_SHOOT(0.0),
-        TWO_SHOOT(0.0),
-        THREE_SHOOT(0.0)
+        ONE_INTAKE(0.98),
+        TWO_INTAKE(0.64),
+        THREE_INTAKE(0.3),
+        ONE_SHOOT(0.8),
+        TWO_SHOOT(0.47),
+        THREE_SHOOT(0.125),
+        ONE_COLOR(0.9),
+        TWO_COLOR(0.55),
+        THREE_COLOR(0.21)
     }
     public enum class OuttakeBallPower(var speedServo1:Double,var speedServo2:Double){
-        ON(0.0,0.0),
+        ON(1.0,1.0),
         OFF(0.0,0.0)
     }
 

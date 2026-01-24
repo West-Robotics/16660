@@ -1,80 +1,122 @@
 package org.firstinspires.ftc.teamcode.architecture
+
+import org.firstinspires.ftc.robotcore.external.Telemetry
+
 object CommandScheduler {
-    private val scheduledCommands = mutableMapOf<Command, MutableSet<Subsystem>>()
-    private val subsystemCommands = mutableMapOf<Subsystem, Command>()
+
+    val scheduledCommands = mutableSetOf<Command>()
+    private val subsystemOwnership = mutableMapOf<Subsystem, Command>()
     private val defaultCommands = mutableMapOf<Subsystem, Command>()
-    private val registeredSubsystems = mutableSetOf<Subsystem>()
-    private val triggers = mutableListOf<Pair<Trigger, (Boolean) -> Unit>>()
-    private val doneCommands = mutableListOf<Command>()
+    val subsystems = mutableSetOf<Subsystem>()
+    val triggers = mutableSetOf<Trigger>()
+
+    val finishedCommands = mutableSetOf<Command>()
 
     fun registerSubsystem(subsystem: Subsystem) {
-        registeredSubsystems.add(subsystem)
+        subsystems.add(subsystem)
     }
 
     fun setDefaultCommand(subsystem: Subsystem, command: Command) {
         defaultCommands[subsystem] = command
     }
 
-    fun registerTrigger(trigger: Trigger, action: (Boolean) -> Unit) {
-        triggers.add(trigger to action)
+    fun registerTrigger(trigger: Trigger) {
+        triggers.add(trigger)
     }
-
+    var initialized: Boolean = false
+    init{
+        initialized = false
+    }
     fun schedule(command: Command) {
-        val requirements = command.requirements
+        if (command in scheduledCommands) {return}
 
-        for (subsystem in requirements) {
-            subsystemCommands[subsystem]?.let { currentCommand ->
-                cancel(currentCommand)
-            }
+        // Cancel conflicting commands
+        command.requirements.forEach { subsystem ->
+            subsystemOwnership[subsystem]?.let { cancel(it) }
         }
 
-        scheduledCommands[command] = requirements.toMutableSet()
-        requirements.forEach { subsystemCommands[it] = command }
+        // Claim subsystems
+        command.requirements.forEach {
+            subsystemOwnership[it] = command
+        }
+
+        scheduledCommands.add(command)
+        command._initialize()
+        initialized = true
     }
 
     fun cancel(command: Command) {
-        scheduledCommands[command]?.forEach { subsystem ->
-            subsystemCommands.remove(subsystem)
-        }
+        if (command !in scheduledCommands) return
+
         scheduledCommands.remove(command)
-        command.end(true)
+
+        command.requirements.forEach {
+            subsystemOwnership.remove(it)
+            it.stop()
+        }
+
+        command._end(true)
     }
 
-    fun run() {
-        triggers.forEach { (trigger, action) ->
-            action(trigger.getState())
-        }
+    fun run(telemetry: Telemetry) {
+        // --- TRIGGERS ---
 
-        registeredSubsystems.forEach { it.periodic() }
+        triggers.forEach { it.update() }
+        triggers.forEach { it.fire() }
+        triggers.forEach { it.commit() }
 
-        val iterator = scheduledCommands.iterator()
-        while (iterator.hasNext()) {
-            val (command, _) = iterator.next()
-            command.execute()
 
-            if (command.isFinished()) {
-                doneCommands.add(command)
-                iterator.remove()
+        // --- SUBSYSTEM PERIODIC ---
+        subsystems.forEach { it.periodic() }
+
+        // --- COMMAND EXECUTION PHASE ---
+        telemetry.addData("scheduledCommands",scheduledCommands)
+        for (cmd in scheduledCommands){
+            cmd.execute()
+            if (cmd.isFinished()){
+                finishedCommands.add(cmd)
             }
         }
 
-        registeredSubsystems.forEach { subsystem ->
-            if (subsystem !in subsystemCommands) {
-                defaultCommands[subsystem]?.schedule()
-            }
-        }
-        registeredSubsystems.forEach { it.write() }
+        // --- WRITE TO HARDWARE PHASE ---
+        subsystems.forEach { it.write() }
 
-        doneCommands.forEach {
-            it.end(false)
-            it.requirements.forEach { subsystem ->
-                subsystemCommands.remove(subsystem)
+        // --- CLEANUP PHASE ---
+        finishedCommands.forEach { command ->
+            scheduledCommands.remove(command) // remove from scheduled commands
+            // Release subsystems
+            command.requirements.forEach { subsystem ->
+                subsystemOwnership.remove(subsystem)
+                subsystem.stop()
+            }
+            // End the command
+            command._end(false)
+        }
+
+
+        // --- DEFAULT COMMANDS ---
+        subsystems.forEach { subsystem ->
+            if (subsystem !in subsystemOwnership) {
+                val default = defaultCommands[subsystem]
+                if (default != null && default !in scheduledCommands) {
+                    schedule(default)
+                }
             }
         }
+
 
     }
 
     fun cancelAll() {
-        scheduledCommands.keys.toList().forEach { cancel(it) }
+        scheduledCommands.toList().forEach { cancel(it) }
+    }
+
+    fun resetAll(){
+        triggers.clear()
+        scheduledCommands.clear()
+        subsystems.clear()
+        subsystemOwnership.clear()
+        defaultCommands.clear()
+        finishedCommands.clear()
     }
 }

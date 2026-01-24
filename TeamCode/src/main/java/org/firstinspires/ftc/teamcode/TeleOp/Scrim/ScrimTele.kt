@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Scrim
 
 import com.qualcomm.hardware.lynx.LynxModule
+import com.qualcomm.robotcore.eventloop.opmode.Disabled
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.Servo
@@ -10,8 +11,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.DrivetrainTank
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.mechanisms.flywheels
 import org.firstinspires.ftc.teamcode.setup.Controller
-
-@TeleOp(name="ScrimTeleOp1Controller")
+@Disabled
 class ScrimTele : LinearOpMode(){
 
     enum class OutTake {

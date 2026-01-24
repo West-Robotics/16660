@@ -16,7 +16,6 @@ class SpindexerSubsytem(hardwareMap: HardwareMap) : Subsystem(){
         spindexer.position = constants.pos1
     }
 
-
     override fun write() {
         spindexer.write()
     }

@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.DrivetrainTank
 import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 import org.firstinspires.ftc.teamcode.setup.Controller
 
-@TeleOp(name="Tank Drive")
+
 class TankTele: LinearOpMode() {
     override fun runOpMode() {
         val drive = DrivetrainTank(hardwareMap)

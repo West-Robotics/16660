@@ -1,25 +1,33 @@
-package org.firstinspires.ftc.teamcode.TeleOp
+package org.firstinspires.ftc.teamcode.TeleOp.tests
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
+import org.firstinspires.ftc.teamcode.setup.CRservoSetup
 import org.firstinspires.ftc.teamcode.setup.Controller
 import org.firstinspires.ftc.teamcode.setup.motorSetup
 import org.firstinspires.ftc.teamcode.setup.servoSetup
-import org.firstinspires.ftc.teamcode.util.ServoConstants
-import com.qualcomm.robotcore.hardware.Servo
-import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
-import org.firstinspires.ftc.teamcode.setup.CRservoSetup
 import org.firstinspires.ftc.teamcode.util.CRServoConstants
+import org.firstinspires.ftc.teamcode.util.ServoConstants
 
 @TeleOp
 class testtele : LinearOpMode(){
     override fun runOpMode() {
-        val leftMotor = motorSetup(hardwareMap,"leftMotor", DcMotorSimple.Direction.FORWARD, DcMotor.ZeroPowerBehavior.BRAKE)
-        val rightMotor = motorSetup(hardwareMap, "rightMotor", DcMotorSimple.Direction.REVERSE,DcMotor.ZeroPowerBehavior.BRAKE)
-        val servo = servoSetup(hardwareMap,"servo1", ServoConstants.AXON)
-        val servo2 = CRservoSetup(hardwareMap,"servo2", CRServoConstants.AXON)
+        val leftMotor = motorSetup(
+            hardwareMap,
+            "leftMotor",
+            DcMotorSimple.Direction.FORWARD,
+            DcMotor.ZeroPowerBehavior.BRAKE
+        )
+        val rightMotor = motorSetup(
+            hardwareMap,
+            "rightMotor",
+            DcMotorSimple.Direction.REVERSE,
+            DcMotor.ZeroPowerBehavior.BRAKE
+        )
+        val servo = servoSetup(hardwareMap, "servo1", ServoConstants.AXON)
+        val servo2 = CRservoSetup(hardwareMap, "servo2", CRServoConstants.AXON)
         val controller1 = Controller(gamepad1)
         waitForStart()
         while (opModeIsActive()){

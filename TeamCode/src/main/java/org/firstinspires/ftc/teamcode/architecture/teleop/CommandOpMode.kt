@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.architecture.teleop
 
+import android.R
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.architecture.CommandScheduler
@@ -19,9 +20,9 @@ abstract class CommandOpMode : LinearOpMode(){
     lateinit var limeLight: Limelight
 
     final override fun runOpMode(){
-        val scheduler = CommandScheduler
         drive = drivetrain(hardwareMap, telemetry)
         intake = IntakeSubsystem(hardwareMap)
+        CommandScheduler.registerSubsystem(intake)
         limeLight = Limelight(hardwareMap)
         gamer1 = Gamepader(gamepad1)
 
@@ -31,11 +32,28 @@ abstract class CommandOpMode : LinearOpMode(){
 
         while (opModeIsActive()) {
             drive.mecanumEffort(gamer1.left_stick_y,gamer1.left_stick_x,gamer1.right_stick_x)
-            scheduler.run()
+            CommandScheduler.run(telemetry)
             drive.write()
-            telemetry.addLine("Hi")
+            telemetry.addData("activeCommands", CommandScheduler.scheduledCommands)
+            telemetry.addData("subsystems", CommandScheduler.subsystems)
+            telemetry.addData("triggers", CommandScheduler.triggers)
+            val bindings = mutableListOf<MutableList<Function0<Unit>>>()
+            CommandScheduler.triggers.forEach { bindings.add(it.bindings) }
+            val current = mutableListOf<Boolean>()
+            val previous = mutableListOf<Boolean>()
+            CommandScheduler.triggers.forEach { current.add(it.current)}
+            CommandScheduler.triggers.forEach { previous.add(it.previous)}
+            val triggerspressed = mutableListOf<Boolean>()
+            CommandScheduler.triggers.forEach { triggerspressed.add(it.pressed)}
+            telemetry.addData("triggersbindigs",bindings)
+            telemetry.addData("triggerscurrent",current)
+            telemetry.addData("triggersprevious",previous)
+            telemetry.addData("triggers pressed",triggerspressed)
+            telemetry.addData("initialized", CommandScheduler.initialized)
             telemetry.update()
         }
+        CommandScheduler.cancelAll()
+        CommandScheduler.resetAll()
 
     }
     open fun initBindings(){

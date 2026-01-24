@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.architecture.subsystems
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.architecture.Subsystem
 import org.firstinspires.ftc.teamcode.setup.CRservoSetup
@@ -7,11 +8,8 @@ import org.firstinspires.ftc.teamcode.util.Robotconstants
 import org.firstinspires.ftc.teamcode.util.CRServoConstants
 
 class YeeterSubsystem(hardwareMap: HardwareMap): Subsystem(){
-    val rightIntake = CRservoSetup(hardwareMap,"rightIntake",CRServoConstants.GOBILDA_TORQUE)
-    val leftIntake = CRservoSetup(hardwareMap,"leftIntake",CRServoConstants.GOBILDA_TORQUE)
-
-
-
+    val rightIntake = CRservoSetup(hardwareMap,"yeeter1",CRServoConstants.GOBILDA_SPEED,DcMotorSimple.Direction.REVERSE)
+    val leftIntake = CRservoSetup(hardwareMap,"yeeter2",CRServoConstants.GOBILDA_SPEED,DcMotorSimple.Direction.FORWARD)
 
     fun run(running:Boolean?){
         if (running == true){

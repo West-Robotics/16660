@@ -18,10 +18,11 @@ class IntakeCommand(private val intake: IntakeSubsystem, private val toggle: Boo
         } else{
             intakeval = Robotconstants.IntakeMotorPower.OUTTAKE
         }
+        intake.setEffort(intakeval.power)
     }
 
     override fun execute() {
-        intake.setEffort(intakeval.power)
+
     }
 
     override fun isFinished(): Boolean = true

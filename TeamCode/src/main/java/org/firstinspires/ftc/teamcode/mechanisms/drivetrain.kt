@@ -41,10 +41,10 @@ class drivetrain(hardwareMap: HardwareMap,telemetry: Telemetry){
         var rotY = x * sinDegrees(-Heading) + y * cosDegrees(-Heading)
         rotX = rotX * 1.1 // Counteract imperfect strafing
         val denominator: Double = max(abs(rotY) + abs(rotX) + abs(rx), 1.0)
-        frontLeft.effort = (rotY + rotX + rx)
-        backLeft.effort = (rotY - rotX + rx)
-        frontRight.effort = (rotY - rotX - rx)
-        backRight.effort = (rotY + rotX - rx)
+        frontLeft.effort = (rotY + rotX + rx)/denominator
+        backLeft.effort = (rotY - rotX + rx)/denominator
+        frontRight.effort = (rotY - rotX - rx)/denominator
+        backRight.effort = (rotY + rotX - rx)/denominator
     }
 
 

@@ -41,6 +41,12 @@ android {
     packagingOptions {
         jniLibs.useLegacyPackaging true
     }
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 34
+    }
 }
 
 repositories {

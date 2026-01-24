@@ -10,7 +10,7 @@ class Pinpoint(hardwareMap: HardwareMap, name:String = "pinpoint") {
     private val odo = hardwareMap.get(name) as GoBildaPinpointDriver
 
     init {
-        odo.setOffsets(-2.125, 1.625, DistanceUnit.INCH)
+        odo.setOffsets(-4.0, 6.7, DistanceUnit.CM)
         odo.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
         odo.setEncoderDirections(
             GoBildaPinpointDriver.EncoderDirection.REVERSED,

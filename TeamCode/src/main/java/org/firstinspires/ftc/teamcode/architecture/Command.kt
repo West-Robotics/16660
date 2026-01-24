@@ -1,42 +1,38 @@
 package org.firstinspires.ftc.teamcode.architecture
 
-abstract class Command{
-    var requirements = mutableSetOf<Subsystem>()
-    var isScheduled = false
+abstract class Command {
+
+    internal var isScheduled = false
+        private set
+
+    val requirements = mutableSetOf<Subsystem>()
 
     open fun initialize() {}
     open fun execute() {}
     open fun isFinished(): Boolean = false
-    open fun end(interrupted: Boolean){}
+    open fun end(interrupted: Boolean) {}
 
     fun schedule() {
-        if (!isScheduled){
-            isScheduled = true
-            initialize()
-        }
         CommandScheduler.schedule(this)
     }
-    fun run() {
-        execute()
-    }
-    fun shouldFinish() = isFinished()
 
     fun cancel() {
-        if (isScheduled){
-            end(true)
-            isScheduled = false
-        }
+        CommandScheduler.cancel(this)
     }
-    fun finish() {
-        if (isScheduled){
-            end(false)
-            isScheduled = false
-        }
 
+    fun addRequirements(vararg subsystems: Subsystem) {
+        requirements.addAll(subsystems)
     }
-    fun addRequirements(vararg subsystem: Subsystem){
-        subsystem.forEach { requirements.add(it) }
+
+    internal fun _initialize() {
+        isScheduled = true
+        initialize()
     }
-    fun andThen(next:Command): Command = SequenceCommand(this,next)
-    fun alongWith(parallel: Command): Command = ParallelCommand(this,parallel)
+
+    internal fun _end(interrupted: Boolean) {
+        isScheduled = false
+        end(interrupted)
+    }
+    fun andThen(next: Command): Command = SequenceCommand(this, next)
+    fun alongWith(other: Command): Command = ParallelCommand(this, other)
 }
