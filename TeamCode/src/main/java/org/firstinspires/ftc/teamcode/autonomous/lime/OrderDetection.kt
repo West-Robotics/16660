@@ -22,6 +22,9 @@ class OrderDetection(val hardwareMap: HardwareMap, val spindexer: SpindexerSubsy
         limelight.pipelineSwitch(6)
         limelight.start()
     }
+    fun setState(){
+
+    }
 
     enum class State(var pos: Robotconstants.SpindexerPosition){
         G(Robotconstants.SpindexerPosition.ONE_SHOOT),

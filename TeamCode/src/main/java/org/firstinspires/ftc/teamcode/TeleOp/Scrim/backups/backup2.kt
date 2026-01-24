@@ -70,6 +70,15 @@ class backup2 : LinearOpMode(){
                     if (controller1.bOnce()){
                         btoggle = !btoggle
                     }
+
+                    if (toggle){
+                        yeeter2.effort = 1.0
+                        yeeter1.effort = 1.0
+                    } else{
+                        yeeter2.effort = 0.0
+                        yeeter1.effort = 0.0
+                    }
+
                     if (controller1.aOnce()){
                         gamestater = Game_State.PREPARE_LAUNCH
                         timer.reset()
@@ -147,13 +156,7 @@ class backup2 : LinearOpMode(){
                 intake.effort = 0.0
             }
 
-            if (toggle){
-                yeeter2.effort = 1.0
-                yeeter1.effort = 1.0
-            } else{
-                yeeter2.effort = 0.0
-                yeeter1.effort = 0.0
-            }
+
 
             //launcher.effort = controller1.right_trigger
 
