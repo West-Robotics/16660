@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.architecture.InstantCommand
 import org.firstinspires.ftc.teamcode.architecture.commands.AlignCommand
 import org.firstinspires.ftc.teamcode.architecture.commands.IntakeCommand
-import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
 
 @TeleOp(name = "Champs")
 class Bindings: CommandOpMode() {

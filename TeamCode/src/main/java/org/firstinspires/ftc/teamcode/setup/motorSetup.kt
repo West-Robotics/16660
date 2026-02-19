@@ -32,9 +32,13 @@ class motorSetup (hardwareMap: HardwareMap,name:String, direction: DcMotorSimple
         set(value)= if(abs(value-_effort)>eps){
             _effort = value
         } else Unit
+    private var lastPower = 0.0
 
     fun write(){
-        motor.power = effort
+        if (abs(effort-lastPower)>eps) {
+            motor.power = effort
+            lastPower = effort
+        }
     }
 
 }

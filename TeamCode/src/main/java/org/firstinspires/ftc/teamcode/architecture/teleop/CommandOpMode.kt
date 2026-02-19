@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.architecture.teleop
 
-import android.R
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
-import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.architecture.CommandScheduler
 import org.firstinspires.ftc.teamcode.architecture.Gamepader
-import org.firstinspires.ftc.teamcode.architecture.commands.IntakeCommand
 import org.firstinspires.ftc.teamcode.architecture.subsystems.IntakeSubsystem
-import org.firstinspires.ftc.teamcode.mechanisms.drivetrain
-import org.firstinspires.ftc.teamcode.setup.Controller
-import org.firstinspires.ftc.teamcode.setup.Limelight
+import org.firstinspires.ftc.teamcode.FTC.mechanisms.drivetrain
+
 
 abstract class CommandOpMode : LinearOpMode(){
     lateinit var gamer1: Gamepader
@@ -17,13 +13,13 @@ abstract class CommandOpMode : LinearOpMode(){
     lateinit var gamer2: Gamepader
     lateinit var drive: drivetrain
     lateinit var intake: IntakeSubsystem
-    lateinit var limeLight: Limelight
+
 
     final override fun runOpMode(){
         drive = drivetrain(hardwareMap, telemetry)
         intake = IntakeSubsystem(hardwareMap)
         CommandScheduler.registerSubsystem(intake)
-        limeLight = Limelight(hardwareMap)
+
         gamer1 = Gamepader(gamepad1)
 
         waitForStart()

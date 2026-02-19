@@ -27,6 +27,13 @@ class servoSetup(hardwareMap: HardwareMap,
             _postion = value
         } else Unit
 
-    fun write(){servo.position = position}
+    private var lastSetPosition = 0.0
+
+    fun write(){
+        if(abs(position-lastSetPosition)>eps) {
+            servo.position = position
+            lastSetPosition = position
+        }
+    }
 
 }
