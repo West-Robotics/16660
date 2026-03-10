@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.architecture.Subsystem
 import org.firstinspires.ftc.teamcode.setup.motorSetup
 
-class IntakeSubsystem(hardwareMap: HardwareMap): Subsystem() {
+class IntakerSubsystem(hardwareMap: HardwareMap): Subsystem() {
 
     val intakeMotor = motorSetup(hardwareMap,
         "intake",

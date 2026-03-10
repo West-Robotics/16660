@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.architecture.Subsystem
 import org.firstinspires.ftc.teamcode.setup.motorSetup
 
-class LauncherSubsystem(hardwareMap: HardwareMap): Subsystem() {
+class LauncherrSubsystem(hardwareMap: HardwareMap): Subsystem() {
     val outTakeHigher = motorSetup(hardwareMap,
         "outTakeH",
         DcMotorSimple.Direction.FORWARD,

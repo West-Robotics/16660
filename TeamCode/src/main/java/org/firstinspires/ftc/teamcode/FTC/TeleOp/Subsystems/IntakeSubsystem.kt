@@ -12,12 +12,16 @@ class IntakeSubsystem(hardwareMap: HardwareMap) {
 
     fun toggle(){
         if (intakeToggle){
-            intake.effort = 0.0
-            intakeToggle = false
+            zero()
         } else {
             intake.effort = 1.0
             intakeToggle = true
         }
+    }
+
+    fun zero(){
+        intake.effort = 0.0
+        intakeToggle = false
     }
 
     fun write(){

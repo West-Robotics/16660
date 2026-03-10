@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.Servo
 import org.firstinspires.ftc.teamcode.util.Robotconstants
 
 
-class SpindexerSubsytem(hardwareMap: HardwareMap) : Subsystem(){
+class SpindexerrSubsytem(hardwareMap: HardwareMap) : Subsystem(){
     val spindexer = servoSetup(hardwareMap,"spindexer", ServoConstants.AXON)
 
     fun position(constants: Robotconstants.SpindexerPosition){
