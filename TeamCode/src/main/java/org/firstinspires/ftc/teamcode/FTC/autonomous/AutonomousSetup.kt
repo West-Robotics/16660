@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.firstinspires.ftc.teamcode.FTC.TeleOp.tests.testtele
-import org.firstinspires.ftc.teamcode.architecture.subsystems.SpindexerSubsytem
+
 import org.firstinspires.ftc.teamcode.setup.Controller
 import org.firstinspires.ftc.teamcode.setup.servoSetup
 import org.firstinspires.ftc.teamcode.util.Robotconstants

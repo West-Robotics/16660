@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotor
 import com.qualcomm.robotcore.hardware.DcMotorSimple
 import com.qualcomm.robotcore.hardware.HardwareMap
 import org.firstinspires.ftc.teamcode.FTC.TeleOp.tests.yeeter
-import org.firstinspires.ftc.teamcode.architecture.subsystems.SpindexerSubsytem
 import org.firstinspires.ftc.teamcode.setup.motorSetup
 import org.firstinspires.ftc.teamcode.setup.servoSetup
 import org.firstinspires.ftc.teamcode.util.ServoConstants
